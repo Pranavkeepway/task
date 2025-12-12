@@ -1,571 +1,416 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="theme-color" content="#6a1b9a"/>
-  <title>Work Performance Appraisal 2025-26 (Offline)</title>
-  <meta name="description" content="Offline Performance Appraisal System for JJSBL Bank Employees">
-
-  <!-- Icons & Fonts -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
-  <link rel="manifest" href="data:application/manifest+json,{
-    \"name\": \"eWORA - Appraisal 2025-26\",
-    \"short_name\": \"eWORA\",
-    \"start_url\": \".\",
-    \"display\": \"standalone\",
-    \"background_color\": \"#6a1b9a\",
-    \"theme_color\": \"#6a1b9a\",
-    \"icons\": [{
-      \"src\": \"https://via.placeholder.com/192x192/6a1b9a/ffffff?text=eW\",
-      \"sizes\": \"192x192\",
-      \"type\": \"image/png\"
-    }]
-  }">
-
-  <!-- Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
-
+  <title>जळगाव जनता सहकारी बँक - वाहन कर्ज</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
     :root {
-      --primary: #6a1b9a;
-      --primary-light: #9c27b0;
-      --accent: #e91e63;
-      --success: #25D366;
-      --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      --card-bg: rgba(255, 255, 255, 0.22);
-      --input-bg: rgba(255, 255, 255, 0.9);
-      --text: #2d1b3a;
-      --border: rgba(255, 255, 255, 0.3);
-      --shadow: 0 10px 30px rgba(0,0,0,0.15);
+      --primary: #1e40af;
+      --secondary: #dc2626;
+      --accent: #f59e0b;
+      --glass: rgba(255,255,255,0.12);
+      --border: rgba(255,255,255,0.25);
+      --shadow: 0 8px 25px rgba(0,0,0,0.25);
     }
-
-    * { box-sizing: border-box; }
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: var(--bg-gradient);
-      background-attachment: fixed;
-      color: var(--text);
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 20px;
+      font-family: 'Segoe UI', 'Noto Sans Devanagari', sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+      color: white;
+      line-height: 1.7;
     }
 
     header {
-      text-align: center;
-      margin-bottom: 30px;
-      animation: fadeDown 0.8s ease-out;
+      background: linear-gradient(90deg, #1e3a8a, #1e40af);
+      padding: 10px 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
     }
-
-    .logo img {
-      height: 90px;
-      border-radius: 16px;
-      box-shadow: var(--shadow);
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
     }
-
-    h1 {
-      color: white;
-      font-size: 2.4rem;
-      margin: 15px 0 8px;
-      text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-
-    .subtitle {
-      color: rgba(255,255,255,0.9);
-      font-size: 1.1rem;
+    .logo-img {
+      height: 48px;
+      border-radius: 8px;
     }
-
-    .card {
-      background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: 20px;
-      padding: 28px;
-      margin-bottom: 28px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
-      animation: fadeUp 0.8s ease-out;
+    .bank-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.8px;
     }
-
-    h2 {
-      color: white;
-      margin-top: 0;
-      border-bottom: 2px solid var(--primary-light);
-      padding-bottom: 10px;
-      font-size: 1.5rem;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    .header-right {
+      display: flex;
+      align-items: center;
       gap: 18px;
+      font-size: 0.95rem;
     }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
+    .lang-select {
+      padding: 8px 16px;
+      border-radius: 30px;
+      border: 2px solid rgba(255,255,255,0.6);
+      background: rgba(255,255,255,0.2);
       color: white;
       font-weight: 600;
     }
 
-    input, textarea, select {
-      width: 100%;
-      padding: 14px 16px;
-      border: none;
-      border-radius: 12px;
-      background: var(--input-bg);
-      font-size: 16px;
-      transition: all 0.3s ease;
-    }
-
-    input:focus, textarea:focus {
-      outline: none;
-      background: white;
-      box-shadow: 0 0 0 4px rgba(106, 27, 154, 0.3);
-      transform: scale(1.02);
-    }
-
-    textarea { resize: vertical; min-height: 110px; }
-
-    .btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 14px 32px;
-      border-radius: 50px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 16px;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 20px rgba(106, 27, 154, 0.3);
-    }
-
-    .btn:hover {
-      background: var(--primary-light);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 25px rgba(106, 27, 154, 0.5);
-    }
-
-    .btn-success { background: var(--success); box-shadow: 0 6px 20px rgba(37,211,102,0.4); }
-    .btn-danger { background: var(--accent); }
-
-    .target-row {
-      background: rgba(255,255,255,0.15);
-      padding: 16px;
-      border-radius: 12px;
-      margin-bottom: 16px;
-      animation: slideIn 0.4s ease;
-    }
-
-    .achievement-banner {
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.75)), 
+                  url('https://images.unsplash.com/photo-1493238792000-8113da705763?q=80&w=2000') center/cover;
+      min-height: 75vh;
+      display: flex;
+      align-items: center;
       text-align: center;
       padding: 20px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 16px;
-      font-size: 2rem;
-      font-weight: bold;
-      color: white;
-      margin: 20px 0;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
-
-    .signature-pad {
-      border: 3px dashed rgba(255,255,255,0.4);
-      border-radius: 16px;
-      background: white;
+    .hero-content {
+      max-width: 1400px;
+      margin: 0 auto;
       width: 100%;
-      height: 220px;
-      margin: 16px 0;
     }
-
-    .actions {
+    .hero h1 {
+      font-size: 4.2rem;
+      font-weight: 900;
+      margin-bottom: 20px;
+      text-shadow: 3px 3px 15px black;
+    }
+    .hero p {
+      font-size: 1.55rem;
+      margin-bottom: 40px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-buttons {
       display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
       justify-content: center;
-      margin-top: 30px;
+      gap: 20px;
+      flex-wrap: wrap;
     }
+    .btn {
+      padding: 16px 38px;
+      font-size: 1.25rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 700;
+      min-width: 210px;
+      transition: all 0.4s;
+    }
+    .btn-primary { background: var(--secondary); color: white; border: none; }
+    .btn-primary:hover { background: #b91c1c; transform: translateY(-5px); }
+    .btn-outline { background: transparent; color: white; border: 3px solid white; }
+    .btn-outline:hover { background: white; color: var(--primary); }
 
-    footer {
+    /* ---- Added Benefit Section ---- */
+    .benefits {
+      max-width: 1100px;
+      margin: 50px auto;
+      padding: 40px;
+      background: var(--glass);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+    .benefits h2 {
       text-align: center;
+      font-size: 2.4rem;
+      margin-bottom: 30px;
+    }
+    .benefits ul {
+      list-style: none;
+      font-size: 1.25rem;
+      line-height: 2;
+    }
+    .benefits ul li::before {
+      content: "✔ ";
+      color: #22c55e;
+      font-weight: 800;
+    }
+
+    /* ---- Document Section ---- */
+    .docs {
+      max-width: 1100px;
+      margin: 40px auto 80px;
+      padding: 40px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .docs h2 {
+      font-size: 2.3rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .docs ol {
+      font-size: 1.2rem;
+      margin-left: 22px;
+      line-height: 2.1;
+    }
+
+    /* EMI Calculator - Mobile Friendly */
+    #emiContainer { margin-top: 40px; width: 100%; }
+    .emi-calculator {
+      background: var(--glass);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
       padding: 30px;
-      color: rgba(255,255,255,0.8);
-      font-size: 0.9rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.6s ease;
     }
-
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-40px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes fadeIn { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+    .close-calc {
+      float: right;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #ff6b6b;
     }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
+    .emi-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 25px;
     }
-
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(-30px); }
-      to { opacity: 1; transform: translateX(0); }
+    .form-group label {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
     }
-
+    input, select {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      background: rgba(255,255,255,0.95);
+      font-size: 1.1rem;
+    }
+    .result-box {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 30px;
+      border-radius: 18px;
+      text-align: center;
+      margin-top: 25px;
+    }
+    .result-box h3 { font-size: 2.8rem; margin-bottom: 8px; }
+    
     @media (max-width: 768px) {
-      h1 { font-size: 2rem; }
-      .actions { flex-direction: column; }
+      .hero h1 { font-size: 2.8rem; }
+      .hero p { font-size: 1.2rem; }
       .btn { width: 100%; }
     }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <header>
-      <div class="logo">
-        <img src="https://www.jjsbl.bank.in/images/jjsbl_logo_bot.png" alt="JJSBL Bank Logo"/>
-      </div>
-      <h1>Work Performance Appraisal</h1>
-      <p class="subtitle">Financial Year 2025-26 | Submit before 1st April 2026</p>
-    </header>
 
-    <div class="card">
-      <h2>Employee Information</h2>
-      <div class="form-grid">
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo-area">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRThKgzR-M_tLLtJfK5jTx0Gzh5ECxJZ8TLKA&s" class="logo-img">
+        <div class="bank-title" data-key="bank_name">जळगाव जनता सहकारी बँक लि., जळगाव</div>
+      </div>
+
+      <div class="header-right">
+        <select class="lang-select" id="langSelect">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+          <option value="mr" selected>मराठी</option>
+        </select>
+        <span><i class="fas fa-phone"></i> <span data-key="contact">0257-222 5511</span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 data-key="hero_title">आपली स्वप्नातील गाडी घरी आणा</h1>
+      <p data-key="hero_subtitle">कमी व्याजदरात त्वरित वाहन कर्ज - फक्त ८.५०%* पासून सुरू</p>
+
+      <div class="cta-buttons">
+        <button class="btn btn-primary" data-key="apply_loan">कर्जासाठी अर्ज करा</button>
+        <button class="btn btn-outline" data-key="check_eligibility">पात्रता तपासा</button>
+        <button class="btn btn-outline" id="emiBtn" data-key="emi_calculator">ईएमआय कॅल्क्युलेटर</button>
+      </div>
+
+      <div id="emiContainer"></div>
+    </div>
+  </section>
+
+  <!-- BENEFITS SECTION -->
+  <section class="benefits">
+    <h2>वाहन कर्जाचे फायदे</h2>
+    <ul>
+      <li>Effortless sanctioning with paperless assessment</li>
+      <li>Easiest way to apply from anywhere</li>
+      <li>ROI starting from 7.80%*</li>
+      <li>Finance up to 90% of on-road price</li>
+      <li>NIL upfront/processing fee and documentation charges</li>
+    </ul>
+  </section>
+
+  <!-- DOCUMENT REQUIREMENTS -->
+  <section class="docs">
+    <h2>ऑनलाईन अर्ज करताना आवश्यक कागदपत्रे</h2>
+    <ol>
+      <li>Aadhaar</li>
+      <li>PAN</li>
+      <li>ITR Login Details</li>
+      <li>Salary / Operative Account Details</li>
+      <li>Car Quotation / Invoice</li>
+      <li>Proof of Advance / Booking Payment</li>
+      <li>Current Address Proof (if different)</li>
+      <li>Insurance quotation/invoice (if self-arranged)</li>
+    </ol>
+  </section>
+
+
+  <!-- EMI CALCULATOR TEMPLATE -->
+  <template id="emiTemplate">
+    <div class="emi-calculator">
+      <span class="close-calc" onclick="this.parentElement.remove()">×</span>
+      <h2 style="text-align:center; font-size:2.4rem; margin-bottom:25px;" data-key="emi_title">वाहन कर्ज ईएमआय कॅल्क्युलेटर</h2>
+      
+      <div class="emi-grid">
         <div>
-          <label for="empName">Employee Name *</label>
-          <input type="text" id="empName" required placeholder="Enter full name"/>
+          <label data-key="loan_amount">कर्जाची रक्कम (₹)</label>
+          <input type="number" id="amount" value="600000">
         </div>
         <div>
-          <label for="department">Department *</label>
-          <input type="text" id="department" required placeholder="e.g., Retail Banking"/>
+          <label data-key="interest_rate">व्याजदर (% प्रति वर्ष)</label>
+          <input type="number" id="rate" value="8.50" step="0.05">
         </div>
         <div>
-          <label for="designation">Designation *</label>
-          <input type="text" id="designation" required placeholder="e.g., Branch Manager"/>
+          <label data-key="tenure">कर्ज मुदत</label>
+          <select id="tenure">
+            <option value="36">३ वर्षे</option>
+            <option value="48">४ वर्षे</option>
+            <option value="60" selected>५ वर्षे</option>
+            <option value="72">६ वर्षे</option>
+            <option value="84">७ वर्षे</option>
+          </select>
         </div>
-        <div>
-          <label for="reportingTo">Reporting To</label>
-          <input type="text" id="reportingTo" placeholder="Manager name & designation"/>
-        </div>
+      </div>
+
+      <div class="result-box">
+        <h3 id="emiResult">₹ 18,942</h3>
+        <p data-key="monthly_emi">मासिक हप्ता</p>
+        <p><strong data-key="total_interest">एकूण व्याज:</strong> <span id="interest">₹ 5,36,520</span></p>
+        <p><strong data-key="total_payable">एकूण देय रक्कम:</strong> <span id="total">₹ 11,36,520</span></p>
       </div>
     </div>
+  </template>
 
-    <div class="card">
-      <h2>Targets & Achievements</h2>
-      <div id="targetsContainer">
-        <!-- Dynamic rows will be injected here -->
-      </div>
-      <button type="button" class="btn" onclick="App.addTargetRow()">
-        <i class="fas fa-plus"></i> Add New Target
-      </button>
-      <div class="achievement-banner" id="achievementBanner">
-        Overall Achievement: <span id="achPercent">0.00%</span>
-      </div>
-    </div>
+  <script>
+    const translations = {
+      en: {
+        bank_name: "Jalgaon Janata Sahakari Bank Ltd, Jalgaon",
+        contact: "0257-222 5511",
+        hero_title: "Drive Home Your Dream Vehicle",
+        hero_subtitle: "Quick & easy vehicle loans starting @ 8.50%* p.a.",
+        apply_loan: "Apply for Loan",
+        check_eligibility: "Check Eligibility",
+        emi_calculator: "EMI Calculator",
+        emi_title: "Vehicle Loan EMI Calculator",
+        loan_amount: "Loan Amount (₹)",
+        interest_rate: "Interest Rate (% p.a.)",
+        tenure: "Loan Tenure",
+        monthly_emi: "Monthly EMI",
+        total_interest: "Total Interest:",
+        total_payable: "Total Payable Amount:"
+      },
+      hi: {
+        bank_name: "जलगाँव जनता सहकारी बैंक लि., जलगाँव",
+        hero_title: "अपनी सपनों की गाड़ी घर लाएँ",
+        contact: "0257-222 5511",
+        hero_subtitle: "त्वरित वाहन कर्ज - केवल 8.50%* से शुरू",
+        apply_loan: "लोन के लिए आवेदन करें",
+        check_eligibility: "पात्रता जाँचें",
+        emi_calculator: "ईएमआई कैलकुलेटर",
+        emi_title: "वाहन कर्ज ईएमआई कैलकुलेटर",
+        loan_amount: "कर्ज राशि (₹)",
+        interest_rate: "ब्याज दर (% प्रतिवर्ष)",
+        tenure: "कर्ज अवधि",
+        monthly_emi: "मासिक ईएमआई",
+        total_interest: "कुल ब्याज:",
+        total_payable: "कुल देय राशि:"
+      },
+      mr: {
+        bank_name: "जळगाव जनता सहकारी बँक लि., जळगाव",
+        contact: "0257-222 5511",
+        hero_title: "आपली स्वप्नातील गाडी घरी आणा",
+        hero_subtitle: "कमी व्याजदरात त्वरित वाहन कर्ज - फक्त ८.५०%* पासून",
+        apply_loan: "कर्जासाठी अर्ज करा",
+        check_eligibility: "पात्रता तपासा",
+        emi_calculator: "ईएमआय कॅल्क्युलेटर",
+        emi_title: "वाहन कर्ज ईएमआय कॅल्क्युलेटर",
+        loan_amount: "कर्जाची रक्कम (₹)",
+        interest_rate: "व्याजदर (% प्रति वर्ष)",
+        tenure: "कर्ज मुदत",
+        monthly_emi: "मासिक हप्ता",
+        total_interest: "एकूण व्याज:",
+        total_payable: "एकूण देय रक्कम:"
+      }
+    };
 
-    <div class="card">
-      <h2>Self Appraisal</h2>
-      <label for="keyAchievements">Key Achievements in 2025-26</label>
-      <textarea id="keyAchievements" placeholder="Highlight your top contributions, projects, awards..."></textarea>
-
-      <label for="careerGoals">Career Goals for 2026-27</label>
-      <textarea id="careerGoals" placeholder="Where do you see yourself next year? Skills to learn? Roles to target?"></textarea>
-
-      <label for="supportRequired">Support Required from Management</label>
-      <textarea id="supportRequired" placeholder="Training, tools, mentoring, approvals, etc."></textarea>
-    </div>
-
-    <div class="card">
-      <h2>Digital Signature</h2>
-      <canvas id="signaturePad" class="signature-pad" aria-label="Signature pad"></canvas>
-      <div style="text-align:center;">
-        <button type="button" class="btn btn-danger" onclick="App.signaturePad.clear()">
-          <i class="fas fa-eraser"></i> Clear Signature
-        </button>
-      </div>
-      <p style="color:#ddd; text-align:center; margin-top:12px;">
-        Use mouse, touch, or stylus • Signature will be embedded in PDF
-      </p>
-    </div>
-
-    <div class="card actions">
-      <button class="btn" onclick="App.saveData()">
-        <i class="fas fa-save"></i> Save Progress (Auto-saved every 30s)
-      </button>
-      <button class="btn btn-success" onclick="App.generatePDF()">
-        <i class="fas fa-file-pdf"></i> Download PDF Report
-      </button>
-      <button class="btn btn-success" style="background:#25D366;" onclick="App.shareViaWhatsApp()">
-        <i class="fab fa-whatsapp"></i> Share on WhatsApp
-      </button>
-    </div>
-  </div>
-
-  <footer>
-    © 2025 JJSBL Bank • Offline eWORA v2.0 • Developed with precision by <strong>Senior Full-Stack Engineer</strong>
-  </footer>
-
-  <script type="module">
-    // ============================
-    // eWORA App - Senior Developer Edition
-    // ============================
-    window.App = (function () {
-      const STORAGE_KEY = 'ewora_appraisal_2025';
-      let autoSaveInterval;
-
-      // DOM References
-      const refs = {
-        targetsContainer: document.getElementById('targetsContainer'),
-        achPercent: document.getElementById('achPercent'),
-        achievementBanner: document.getElementById('achievementBanner'),
-        signatureCanvas: document.getElementById('signaturePad')
-      };
-
-      // Initialize Signature Pad with resize support
-      const resizeCanvas = () => {
-        const canvas = refs.signatureCanvas;
-        const ratio = Math.max(window.devicePixelRatio || 1, 1);
-        canvas.width = canvas.offsetWidth * ratio;
-        canvas.height = canvas.offsetHeight * ratio;
-        canvas.getContext('2d').scale(ratio, ratio);
-        refs.signaturePad?.clear(); // Prevent distortion
-      };
-
-      const signaturePad = new SignaturePad(refs.signatureCanvas, {
-        backgroundColor: 'rgb(255,255,255)',
-        penColor: 'rgb(0, 0, 0)'
+    const langSelect = document.getElementById('langSelect');
+    function updateLanguage() {
+      const lang = langSelect.value;
+      document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.dataset.key;
+        if (translations[lang][key]) el.textContent = translations[lang][key];
       });
+    }
+    langSelect.addEventListener('change', updateLanguage);
 
-      window.addEventListener('resize', resizeCanvas);
-      resizeCanvas();
-
-      // Core Functions
-      const calculateAchievement = () => {
-        let totalTarget = 0, totalAchieved = 0;
-        document.querySelectorAll('.target-row').forEach(row => {
-          const target = parseFloat(row.querySelector('.targetVal').value) || 0;
-          const ach = parseFloat(row.querySelector('.achVal').value) || 0;
-          totalTarget += target;
-          totalAchieved += ach;
-        });
-
-        const percentage = totalTarget > 0 ? (totalAchieved / totalTarget) * 100 : 0;
-        const formatted = percentage.toFixed(2);
-        refs.achPercent.textContent = formatted + '%';
-
-        // Color coding
-        let color = '#ff4444';
-        if (percentage >= 100) color = '#00C851';
-        else if (percentage >= 80) color = '#ffbb33';
-        refs.achievementBanner.style.background = `rgba(255,255,255,0.25)`;
-        refs.achPercent.style.color = color;
-      };
-
-      const addTargetRow = (data = {}) => {
-        const row = document.createElement('div');
-        row.className = 'target-row form-grid';
-        row.innerHTML = `
-          <div>
-            <label>Target Description</label>
-            <input type="text" class="targetDesc" value="${data.desc || ''}" placeholder="e.g., CASA Growth, Loan Disbursement"/>
-          </div>
-          <div>
-            <label>Target Value</label>
-            <input type="number" class="targetVal" value="${data.target || ''}" placeholder="100" min="0"/>
-          </div>
-          <div>
-            <label>Achievement (as on 31 Mar 2026)</label>
-            <input type="number" class="achVal" value="${data.ach || ''}" placeholder="95" min="0"/>
-          </div>
-          <div style="align-self: end;">
-            <button type="button" class="btn btn-danger" style="padding:10px 16px;" onclick="this.closest('.target-row').remove(); App.calculateAchievement();">
-              <i class="fas fa-trash"></i>
-            </button>
-          </div>
-        `;
-        refs.targetsContainer.appendChild(row);
-
-        // Re-bind event listeners
-        row.querySelectorAll('input').forEach(input => {
-          input.addEventListener('input', calculateAchievement);
-        });
-
-        calculateAchievement();
-      };
-
-      const collectFormData = () => {
-        const targets = [];
-        document.querySelectorAll('.target-row').forEach(row => {
-          targets.push({
-            desc: row.querySelector('.targetDesc').value.trim(),
-            target: row.querySelector('.targetVal').value,
-            ach: row.querySelector('.achVal').value
-          });
-        });
-
-        return {
-          empName: document.getElementById('empName').value.trim(),
-          department: document.getElementById('department').value.trim(),
-          designation: document.getElementById('designation').value.trim(),
-          reportingTo: document.getElementById('reportingTo').value.trim(),
-          targets,
-          keyAchievements: document.getElementById('keyAchievements').value,
-          careerGoals: document.getElementById('careerGoals').value,
-          supportRequired: document.getElementById('supportRequired').value,
-          signature: signaturePad.isEmpty() ? null : signaturePad.toDataURL('image/png'),
-          savedAt: new Date().toISOString()
-        };
-      };
-
-      const saveData = () => {
-        try {
-          const data = collectFormData();
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-          showToast('Progress saved locally', 'success');
-        } catch (e) {
-          showToast('Save failed! Check storage quota.', 'error');
-        }
-      };
-
-      const loadData = () => {
-        try {
-          const raw = localStorage.getItem(STORAGE_KEY);
-          if (!raw) return;
-
-          const data = JSON.parse(raw);
-
-          document.getElementById('empName').value = data.empName || '';
-          document.getElementById('department').value = data.department || '';
-          document.getElementById('designation').value = data.designation || '';
-          document.getElementById('reportingTo').value = data.reportingTo || '';
-          document.getElementById('keyAchievements').value = data.keyAchievements || '';
-          document.getElementById('careerGoals').value = data.careerGoals || '';
-          document.getElementById('supportRequired').value = data.supportRequired || '';
-
-          // Load targets
-          refs.targetsContainer.innerHTML = '';
-          (data.targets || []).forEach(t => addTargetRow(t));
-
-          // Load signature
-          if (data.signature) {
-            signaturePad.fromDataURL(data.signature);
-          }
-
-          calculateAchievement();
-          showToast('Data loaded successfully', 'success');
-        } catch (e) {
-          showToast('Failed to load saved data', 'error');
-        }
-      };
-
-      const generatePDF = async () => {
-        const name = document.getElementById('empName').value.trim() || 'Employee';
-        const filename = `Appraisal_${name.replace(/[^a-zA-Z0-9]/g, '_')}_2025_26.pdf`;
-
-        try {
-          // Hide buttons & interactive elements
-          document.querySelectorAll('button, .btn').forEach(b => b.style.visibility = 'hidden');
-          document.querySelector('.actions').style.display = 'none';
-
-          const canvas = await html2canvas(document.body, {
-            scale: 2,
-            useCORS: true,
-            backgroundColor: '#764ba2'
-          });
-
-          const imgData = canvas.toDataURL('image/png');
-          const { jsPDF } = window.jspdf;
-          const pdf = new jsPDF('p', 'mm', 'a4');
-
-          const imgWidth = 210;
-          const pageHeight = 295;
-          const imgHeight = (canvas.height * imgWidth) / canvas.width;
-          let heightLeft = imgHeight;
-          let position = 0;
-
-          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-          heightLeft -= pageHeight;
-
-          while (heightLeft >= 0) {
-            position = heightLeft - imgHeight;
-            pdf.addPage();
-            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
-          }
-
-          pdf.save(filename);
-          showToast('PDF generated & downloaded!', 'success');
-        } catch (err) {
-          console.error(err);
-          showToast('PDF generation failed', 'error');
-        } finally {
-          // Restore UI
-          document.querySelectorAll('button, .btn').forEach(b => b.style.visibility = 'visible');
-          document.querySelector('.actions').style.display = 'flex';
-        }
-      };
-
-      const shareViaWhatsApp = () => {
-        const name = document.getElementById('empName').value || 'Employee';
-        const ach = refs.achPercent.textContent;
-        const message = `Hello Sir/Madam,\n\nI have completed my Performance Appraisal for FY 2025-26.\n\nName: ${name}\nAchievement: ${ach}\n\nPlease find the detailed report attached (PDF generated from eWORA).\n\nThank you!\n\n— ${name}`;
-
-        const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
-        window.open(url, '_blank');
-      };
-
-      const showToast = (message, type = 'info') => {
-        // Simple toast (you can replace with Toastify or SweetAlert)
-        const toast = document.createElement('div');
-        toast.textContent = message;
-        toast.style.cssText = `
-          position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-          background: ${type==='success'?'#00C851': type==='error'?'#ff4444':'#333'};
-          color: white; padding: 14px 28px; border-radius: 50px; z-index: 10000;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.3); font-weight: bold;
-        `;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 4000);
-      };
-
-      // Auto-save every 30 seconds
-      const startAutoSave = () => {
-        clearInterval(autoSaveInterval);
-        autoSaveInterval = setInterval(saveData, 30000);
-      };
-
-      // Public API
-      return {
-        addTargetRow,
-        calculateAchievement,
-        saveData,
-        loadData,
-        generatePDF,
-        shareViaWhatsApp,
-        signaturePad,
-        startAutoSave
-      };
-    })();
-
-    // Initialize App
-    document.addEventListener('DOMContentLoaded', () => {
-      // Add first target row by default
-      App.addTargetRow();
-      App.loadData();
-      App.startAutoSave();
-
-      // Save on beforeunload
-      window.addEventListener('beforeunload', App.saveData);
+    document.getElementById('emiBtn').addEventListener('click', () => {
+      const existing = document.querySelector('.emi-calculator');
+      if (existing) { existing.remove(); return; }
+      const clone = document.getElementById('emiTemplate').content.cloneNode(true);
+      document.getElementById('emiContainer').appendChild(clone);
+      updateLanguage();
+      ['amount','rate','tenure'].forEach(id => {
+        document.getElementById(id)?.addEventListener('input', calculateEMI);
+      });
+      calculateEMI();
     });
+
+    function calculateEMI() {
+      const amt = parseFloat(document.getElementById('amount').value);
+      const r = parseFloat(document.getElementById('rate').value) / 1200;
+      const n = parseInt(document.getElementById('tenure').value);
+      const emi = amt * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
+      const total = emi * n;
+      const interest = total - amt;
+
+      document.getElementById('emiResult').textContent = "₹ " + Math.round(emi).toLocaleString('en-IN');
+      document.getElementById('interest').textContent = "₹ " + Math.round(interest).toLocaleString('en-IN');
+      document.getElementById('total').textContent = "₹ " + Math.round(total).toLocaleString('en-IN');
+    }
+
+    window.onload = () => {
+      langSelect.value = "mr";
+      updateLanguage();
+    };
   </script>
+
 </body>
-
 </html>
-
-
