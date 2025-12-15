@@ -3,414 +3,565 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>जळगाव जनता सहकारी बँक - वाहन कर्ज</title>
+  <title>जळगाव जनता सहकारी बँक - प्रीमियम वाहन कर्ज</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;600;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
+    /* --- PROFESSIONAL VARIABLES --- */
     :root {
-      --primary: #1e40af;
-      --secondary: #dc2626;
-      --accent: #f59e0b;
-      --glass: rgba(255,255,255,0.12);
-      --border: rgba(255,255,255,0.25);
-      --shadow: 0 8px 25px rgba(0,0,0,0.25);
-    }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: 'Segoe UI', 'Noto Sans Devanagari', sans-serif;
-      background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
-      color: white;
-      line-height: 1.7;
+      --primary-dark: #0f172a;   /* Deep Navy for Trust */
+      --primary: #1e40af;        /* Brand Blue */
+      --primary-light: #3b82f6;  /* Highlight Blue */
+      --accent: #d97706;         /* Gold for Action/Money */
+      --surface: #ffffff;
+      --bg-body: #f1f5f9;
+      --text-main: #1e293b;
+      --text-light: #64748b;
+      --gradient-main: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+      --gradient-gold: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      --glass: rgba(255, 255, 255, 0.95);
+      --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.1);
+      --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+      --radius: 16px;
     }
 
+    /* --- RESET & TYPOGRAPHY --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif; }
+    body { background: var(--bg-body); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+    h1, h2, h3 { font-weight: 700; color: var(--primary-dark); }
+    
+    /* --- HEADER (GLASSMORPHISM) --- */
     header {
-      background: linear-gradient(90deg, #1e3a8a, #1e40af);
-      padding: 10px 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
     }
-    .header-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
+    .nav-container {
+      max-width: 1280px; margin: 0 auto; padding: 15px 20px;
+      display: flex; justify-content: space-between; align-items: center;
     }
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand img { height: 45px; border-radius: 8px; }
+    .brand-text { font-size: 1.1rem; font-weight: 800; color: var(--primary); line-height: 1.2; }
+    
+    .nav-controls { display: flex; gap: 15px; align-items: center; }
+    .lang-btn {
+      padding: 8px 16px; border-radius: 30px; border: 1px solid #cbd5e1;
+      background: white; color: var(--text-main); font-weight: 600; cursor: pointer;
+      transition: all 0.3s; font-size: 0.9rem;
     }
-    .logo-img {
-      height: 48px;
-      border-radius: 8px;
-    }
-    .bank-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      letter-spacing: 0.8px;
-    }
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      font-size: 0.95rem;
-    }
-    .lang-select {
-      padding: 8px 16px;
-      border-radius: 30px;
-      border: 2px solid rgba(255,255,255,0.6);
-      background: rgba(255,255,255,0.2);
-      color: white;
-      font-weight: 600;
+    .lang-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .contact-btn {
+      background: var(--primary-dark); color: white; padding: 8px 20px;
+      border-radius: 30px; text-decoration: none; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;
     }
 
+    /* --- HERO SECTION --- */
     .hero {
-      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.75)), 
-                  url('https://images.unsplash.com/photo-1493238792000-8113da705763?q=80&w=2000') center/cover;
-      min-height: 75vh;
-      display: flex;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
+      position: relative; min-height: 90vh; display: flex; align-items: center;
+      background: url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=2070&auto=format&fit=crop') center/cover;
+      padding-top: 80px;
+    }
+    .hero::before {
+      content:''; position: absolute; top:0; left:0; width:100%; height:100%;
+      background: linear-gradient(90deg, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.7) 60%, rgba(15,23,42,0.1) 100%);
     }
     .hero-content {
-      max-width: 1400px;
-      margin: 0 auto;
-      width: 100%;
+      position: relative; z-index: 2; max-width: 1280px; margin: 0 auto; padding: 0 20px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+    }
+    .hero-text { color: white; animation: slideUp 1s ease-out; }
+    .hero-badge {
+      display: inline-block; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      padding: 6px 16px; border-radius: 20px; font-size: 0.9rem; margin-bottom: 20px;
+      backdrop-filter: blur(4px); color: #fbbf24; font-weight: 600; letter-spacing: 1px;
     }
     .hero h1 {
-      font-size: 4.2rem;
-      font-weight: 900;
-      margin-bottom: 20px;
-      text-shadow: 3px 3px 15px black;
+      font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; color: white;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
-    .hero p {
-      font-size: 1.55rem;
-      margin-bottom: 40px;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .cta-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .btn {
-      padding: 16px 38px;
-      font-size: 1.25rem;
-      border-radius: 50px;
-      cursor: pointer;
-      font-weight: 700;
-      min-width: 210px;
-      transition: all 0.4s;
-    }
-    .btn-primary { background: var(--secondary); color: white; border: none; }
-    .btn-primary:hover { background: #b91c1c; transform: translateY(-5px); }
-    .btn-outline { background: transparent; color: white; border: 3px solid white; }
-    .btn-outline:hover { background: white; color: var(--primary); }
-
-    /* ---- Added Benefit Section ---- */
-    .benefits {
-      max-width: 1100px;
-      margin: 50px auto;
-      padding: 40px;
-      background: var(--glass);
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      backdrop-filter: blur(18px);
-      box-shadow: var(--shadow);
-    }
-    .benefits h2 {
-      text-align: center;
-      font-size: 2.4rem;
-      margin-bottom: 30px;
-    }
-    .benefits ul {
-      list-style: none;
-      font-size: 1.25rem;
-      line-height: 2;
-    }
-    .benefits ul li::before {
-      content: "✔ ";
-      color: #22c55e;
-      font-weight: 800;
-    }
-
-    /* ---- Document Section ---- */
-    .docs {
-      max-width: 1100px;
-      margin: 40px auto 80px;
-      padding: 40px;
-      background: rgba(255,255,255,0.15);
-      border-radius: 20px;
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-    }
-    .docs h2 {
-      font-size: 2.3rem;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    .docs ol {
-      font-size: 1.2rem;
-      margin-left: 22px;
-      line-height: 2.1;
-    }
-
-    /* EMI Calculator - Mobile Friendly */
-    #emiContainer { margin-top: 40px; width: 100%; }
-    .emi-calculator {
-      background: var(--glass);
-      backdrop-filter: blur(18px);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 30px;
-      max-width: 1000px;
-      margin: 0 auto;
-      box-shadow: var(--shadow);
-      animation: fadeIn 0.6s ease;
-    }
-    @keyframes fadeIn { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
-    .close-calc {
-      float: right;
-      font-size: 2rem;
-      cursor: pointer;
-      color: #ff6b6b;
-    }
-    .emi-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 25px;
-    }
-    .form-group label {
-      font-size: 1.15rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      display: block;
-    }
-    input, select {
-      width: 100%;
-      padding: 14px;
-      border-radius: 12px;
-      border: none;
-      background: rgba(255,255,255,0.95);
-      font-size: 1.1rem;
-    }
-    .result-box {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      padding: 30px;
-      border-radius: 18px;
-      text-align: center;
-      margin-top: 25px;
-    }
-    .result-box h3 { font-size: 2.8rem; margin-bottom: 8px; }
+    .hero p { font-size: 1.25rem; color: #cbd5e1; margin-bottom: 35px; max-width: 90%; }
     
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 2.8rem; }
-      .hero p { font-size: 1.2rem; }
-      .btn { width: 100%; }
+    .btn-group { display: flex; gap: 15px; flex-wrap: wrap; }
+    .btn {
+      padding: 16px 32px; border-radius: 50px; font-weight: 700; cursor: pointer;
+      font-size: 1rem; transition: transform 0.3s, box-shadow 0.3s; border: none;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .btn-primary { background: var(--gradient-gold); color: white; box-shadow: 0 10px 20px rgba(217, 119, 6, 0.3); }
+    .btn-glass { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(5px); }
+    .btn:hover { transform: translateY(-3px); }
+    .btn-primary:hover { box-shadow: 0 15px 30px rgba(217, 119, 6, 0.5); }
+    .btn-glass:hover { background: white; color: var(--primary-dark); }
+
+    /* EMI WIDGET IN HERO */
+    .hero-widget {
+      background: var(--glass); padding: 30px; border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.5);
+      animation: fadeInRight 1.2s ease-out;
+    }
+
+    /* --- FEATURES SECTION --- */
+    .section { padding: 80px 20px; max-width: 1280px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 60px; }
+    .section-header h2 { font-size: 2.5rem; margin-bottom: 10px; }
+    .section-header .divider { height: 4px; width: 60px; background: var(--accent); margin: 0 auto; border-radius: 2px; }
+
+    .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+    .feature-card {
+      background: white; padding: 40px 30px; border-radius: 20px;
+      box-shadow: var(--shadow-sm); transition: all 0.4s ease;
+      border: 1px solid #f1f5f9; position: relative; overflow: hidden;
+    }
+    .feature-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); border-color: var(--primary-light); }
+    .icon-box {
+      width: 60px; height: 60px; background: #eff6ff; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+      color: var(--primary); margin-bottom: 20px; transition: 0.3s;
+    }
+    .feature-card:hover .icon-box { background: var(--primary); color: white; }
+    .feature-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; }
+    .feature-desc { color: var(--text-light); font-size: 0.95rem; }
+
+    /* --- CALCULATOR SECTION --- */
+    .calc-section { background: white; border-radius: 30px; padding: 50px; box-shadow: var(--shadow-lg); margin: 60px auto; max-width: 1200px; }
+    .calc-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 50px; }
+    
+    .slider-group { margin-bottom: 35px; }
+    .slider-header { display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: 600; color: var(--text-main); }
+    .highlight-value { color: var(--primary); font-size: 1.2rem; background: #eff6ff; padding: 2px 10px; border-radius: 8px; }
+    
+    input[type=range] {
+      width: 100%; -webkit-appearance: none; height: 8px; border-radius: 5px; background: #e2e8f0; outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%;
+      background: var(--primary); cursor: pointer; border: 4px solid white; box-shadow: 0 0 0 3px var(--primary);
+      transition: transform 0.2s;
+    }
+    input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.1); }
+
+    .result-panel {
+      background: var(--primary-dark); color: white; border-radius: 24px; padding: 40px;
+      text-align: center; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden;
+    }
+    .result-panel::before {
+      content: ''; position: absolute; top: -50px; right: -50px; width: 150px; height: 150px;
+      background: rgba(255,255,255,0.1); border-radius: 50%;
+    }
+    .emi-amount { font-size: 2.5rem; font-weight: 800; color: #fbbf24; margin: 10px 0 20px 0; }
+    .breakdown { display: flex; justify-content: space-between; font-size: 0.9rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; text-align: left; }
+    
+    /* --- DOCUMENTS GRID --- */
+    .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+    .doc-item {
+      display: flex; align-items: center; gap: 15px; background: white; padding: 20px;
+      border-radius: 12px; border-left: 5px solid var(--accent); box-shadow: var(--shadow-sm);
+    }
+    .check-icon { color: var(--success); background: #dcfce7; padding: 5px; border-radius: 50%; font-size: 0.8rem; }
+
+    /* --- FOOTER --- */
+    footer { background: var(--primary-dark); color: #94a3b8; padding: 60px 20px 20px; margin-top: 80px; }
+    .footer-content { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px; }
+    .footer-col h4 { color: white; margin-bottom: 20px; font-size: 1.2rem; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a { color: #94a3b8; text-decoration: none; transition: 0.3s; }
+    .footer-col ul li a:hover { color: var(--accent); padding-left: 5px; }
+    .copyright { text-align: center; border-top: 1px solid #334155; padding-top: 20px; font-size: 0.9rem; }
+
+    /* --- ANIMATIONS --- */
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 968px) {
+      .hero-content { grid-template-columns: 1fr; text-align: center; }
+      .hero h1 { font-size: 2.5rem; }
+      .hero p { margin: 0 auto 30px; }
+      .btn-group { justify-content: center; }
+      .calc-grid { grid-template-columns: 1fr; }
+      .hero-widget { display: none; } /* Hide widget on mobile hero, show section instead */
     }
   </style>
 </head>
-
 <body>
 
-  <!-- Header -->
   <header>
-    <div class="header-container">
-      <div class="logo-area">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRThKgzR-M_tLLtJfK5jTx0Gzh5ECxJZ8TLKA&s" class="logo-img">
-        <div class="bank-title" data-key="bank_name">जळगाव जनता सहकारी बँक लि., जळगाव</div>
+    <div class="nav-container">
+      <div class="brand">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRThKgzR-M_tLLtJfK5jTx0Gzh5ECxJZ8TLKA&s" alt="JJSB Logo">
+        <div class="brand-text">
+          <span data-key="bank_name_short">जळगाव जनता बँक</span><br>
+          <small style="font-weight:400; font-size:0.8rem; color:var(--text-light)">Trusted Since 1979</small>
+        </div>
       </div>
-
-      <div class="header-right">
-        <select class="lang-select" id="langSelect">
+      <div class="nav-controls">
+        <select class="lang-btn" id="langSelect">
+          <option value="mr">मराठी</option>
           <option value="en">English</option>
           <option value="hi">हिन्दी</option>
-          <option value="mr" selected>मराठी</option>
         </select>
-        <span><i class="fas fa-phone"></i> <span data-key="contact">0257-222 5511</span></span>
+        <a href="tel:02572225511" class="contact-btn">
+          <i class="fas fa-headset"></i> <span class="desktop-only">0257-222 5511</span>
+        </a>
       </div>
     </div>
   </header>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="hero-content">
-      <h1 data-key="hero_title">आपली स्वप्नातील गाडी घरी आणा</h1>
-      <p data-key="hero_subtitle">कमी व्याजदरात त्वरित वाहन कर्ज - फक्त ८.५०%* पासून सुरू</p>
-
-      <div class="cta-buttons">
-        <button class="btn btn-primary" data-key="apply_loan">कर्जासाठी अर्ज करा</button>
-        <button class="btn btn-outline" data-key="check_eligibility">पात्रता तपासा</button>
-        <button class="btn btn-outline" id="emiBtn" data-key="emi_calculator">ईएमआय कॅल्क्युलेटर</button>
+      <div class="hero-text">
+        <div class="hero-badge"><i class="fas fa-bolt"></i> त्वरित मंजूरी</div>
+        <h1 data-key="hero_title">आपली स्वप्नातील गाडी<br><span style="color:#fbbf24">आताच घरी आणा</span></h1>
+        <p data-key="hero_subtitle">किचकट कागदपत्रांशिवाय, सर्वात कमी व्याजदरात आणि अत्यंत सोप्या प्रक्रियेसह वाहन कर्ज मिळवा.</p>
+        
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="scrollToCalc()">
+            <i class="fas fa-calculator"></i> <span data-key="check_emi">ईएमआय तपासा</span>
+          </button>
+          <button class="btn btn-glass">
+            <i class="fas fa-file-contract"></i> <span data-key="apply_now">अर्ज करा</span>
+          </button>
+        </div>
       </div>
 
-      <div id="emiContainer"></div>
+      <div class="hero-widget">
+        <h3 style="margin-bottom:20px; font-size:1.2rem;" data-key="why_us">आमची वैशिष्ट्ये</h3>
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;">
+          <div style="width:40px; height:40px; background:#eff6ff; border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--primary);"><i class="fas fa-percent"></i></div>
+          <div>
+            <div style="font-weight:700; font-size:1.1rem;">8.50%*</div>
+            <div style="font-size:0.85rem; color:#64748b;" data-key="roi_start">व्याज दर सुरुवात</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;">
+          <div style="width:40px; height:40px; background:#fff7ed; border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--accent);"><i class="fas fa-wallet"></i></div>
+          <div>
+            <div style="font-weight:700; font-size:1.1rem;">Zero</div>
+            <div style="font-size:0.85rem; color:#64748b;" data-key="proc_fee">प्रक्रिया शुल्क</div>
+          </div>
+        </div>
+        <div style="margin-top:20px; padding-top:20px; border-top:1px solid #e2e8f0;">
+          <div style="font-size:0.8rem; color:#64748b; margin-bottom:5px;">Customer Rating</div>
+          <div style="color:#fbbf24;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> (4.8/5)</div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- BENEFITS SECTION -->
-  <section class="benefits">
-    <h2>वाहन कर्जाचे फायदे</h2>
-    <ul>
-      <li>Effortless sanctioning with paperless assessment</li>
-      <li>Easiest way to apply from anywhere</li>
-      <li>ROI starting from 7.80%*</li>
-      <li>Finance up to 90% of on-road price</li>
-      <li>NIL upfront/processing fee and documentation charges</li>
-    </ul>
+  <section class="section">
+    <div class="section-header">
+      <h2 data-key="benefits_title">आम्हालाच का निवडावे?</h2>
+      <div class="divider"></div>
+      <p style="margin-top:15px; color:var(--text-light);" data-key="benefits_sub">ग्राहकांच्या गरजा समजून घेणारी, हक्काची बँक</p>
+    </div>
+
+    <div class="grid-cards">
+      <div class="feature-card">
+        <div class="icon-box"><i class="fas fa-paper-plane"></i></div>
+        <h3 class="feature-title" data-key="feat1_title">पेपरलेस प्रक्रिया</h3>
+        <p class="feature-desc" data-key="feat1_desc">पूर्णपणे डिजिटल प्रक्रिया. बँकेत जाण्याची गरज नाही, घरबसल्या अर्ज करा.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-box"><i class="fas fa-rupee-sign"></i></div>
+        <h3 class="feature-title" data-key="feat2_title">९०% पर्यंत फायनान्स</h3>
+        <p class="feature-desc" data-key="feat2_desc">गाडीच्या ऑन-रोड किंमतीच्या ९०% पर्यंत कर्ज उपलब्ध.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-box"><i class="fas fa-clock"></i></div>
+        <h3 class="feature-title" data-key="feat3_title">४८ तासात मंजूरी</h3>
+        <p class="feature-desc" data-key="feat3_desc">कागदपत्रे बरोबर असल्यास अतिशय वेगाने कर्ज मंजूर.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-box"><i class="fas fa-calendar-alt"></i></div>
+        <h3 class="feature-title" data-key="feat4_title">लवचिक परतफेड</h3>
+        <p class="feature-desc" data-key="feat4_desc">आपल्या सोयीनुसार ७ वर्षांपर्यंत परतफेडीची मुदत निवडा.</p>
+      </div>
+    </div>
   </section>
 
-  <!-- DOCUMENT REQUIREMENTS -->
-  <section class="docs">
-    <h2>ऑनलाईन अर्ज करताना आवश्यक कागदपत्रे</h2>
-    <ol>
-      <li>Aadhaar</li>
-      <li>PAN</li>
-      <li>ITR Login Details</li>
-      <li>Salary / Operative Account Details</li>
-      <li>Car Quotation / Invoice</li>
-      <li>Proof of Advance / Booking Payment</li>
-      <li>Current Address Proof (if different)</li>
-      <li>Insurance quotation/invoice (if self-arranged)</li>
-    </ol>
-  </section>
-
-
-  <!-- EMI CALCULATOR TEMPLATE -->
-  <template id="emiTemplate">
-    <div class="emi-calculator">
-      <span class="close-calc" onclick="this.parentElement.remove()">×</span>
-      <h2 style="text-align:center; font-size:2.4rem; margin-bottom:25px;" data-key="emi_title">वाहन कर्ज ईएमआय कॅल्क्युलेटर</h2>
+  <section class="section" id="calculator">
+    <div class="calc-section">
+      <div class="section-header">
+        <h2 data-key="calc_title">स्मार्ट EMI कॅल्क्युलेटर</h2>
+        <div class="divider"></div>
+      </div>
       
-      <div class="emi-grid">
-        <div>
-          <label data-key="loan_amount">कर्जाची रक्कम (₹)</label>
-          <input type="number" id="amount" value="600000">
-        </div>
-        <div>
-          <label data-key="interest_rate">व्याजदर (% प्रति वर्ष)</label>
-          <input type="number" id="rate" value="8.50" step="0.05">
-        </div>
-        <div>
-          <label data-key="tenure">कर्ज मुदत</label>
-          <select id="tenure">
-            <option value="36">३ वर्षे</option>
-            <option value="48">४ वर्षे</option>
-            <option value="60" selected>५ वर्षे</option>
-            <option value="72">६ वर्षे</option>
-            <option value="84">७ वर्षे</option>
-          </select>
-        </div>
-      </div>
+      <div class="calc-grid">
+        <div class="controls">
+          <div class="slider-group">
+            <div class="slider-header">
+              <span data-key="loan_amt_lbl">कर्जाची रक्कम</span>
+              <span class="highlight-value" id="amtDisplay">₹ 6,00,000</span>
+            </div>
+            <input type="range" id="amount" min="50000" max="5000000" step="10000" value="600000">
+            <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#94a3b8; margin-top:5px;">
+              <span>50K</span><span>50L</span>
+            </div>
+          </div>
 
-      <div class="result-box">
-        <h3 id="emiResult">₹ 18,942</h3>
-        <p data-key="monthly_emi">मासिक हप्ता</p>
-        <p><strong data-key="total_interest">एकूण व्याज:</strong> <span id="interest">₹ 5,36,520</span></p>
-        <p><strong data-key="total_payable">एकूण देय रक्कम:</strong> <span id="total">₹ 11,36,520</span></p>
+          <div class="slider-group">
+            <div class="slider-header">
+              <span data-key="roi_lbl">व्याज दर (%)</span>
+              <span class="highlight-value" id="rateDisplay">8.50%</span>
+            </div>
+            <input type="range" id="rate" min="7" max="15" step="0.1" value="8.5">
+            <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#94a3b8; margin-top:5px;">
+              <span>7%</span><span>15%</span>
+            </div>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <span data-key="tenure_lbl">मुदत (वर्षे)</span>
+              <span class="highlight-value" id="tenureDisplay">5 वर्षे</span>
+            </div>
+            <input type="range" id="tenure" min="1" max="7" step="1" value="5">
+            <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#94a3b8; margin-top:5px;">
+              <span>1 वर्ष</span><span>7 वर्षे</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-panel">
+          <div style="font-size:1.1rem; opacity:0.9;" data-key="monthly_emi">मासिक हप्ता (EMI)</div>
+          <div class="emi-amount" id="emiResult">₹ 12,310</div>
+          
+          <div class="breakdown">
+            <div>
+              <div style="font-size:0.8rem; opacity:0.7;" data-key="total_int">एकूण व्याज</div>
+              <div style="font-weight:600; font-size:1.1rem;" id="totalInterest">₹ 1,38,000</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:0.8rem; opacity:0.7;" data-key="total_pay">एकूण देय रक्कम</div>
+              <div style="font-weight:600; font-size:1.1rem;" id="totalPayment">₹ 7,38,000</div>
+            </div>
+          </div>
+          
+          <button class="btn btn-primary" style="margin-top:30px; width:100%; justify-content:center; background:white; color:var(--primary-dark);" data-key="apply_btn_calc">
+            या कर्जासाठी अर्ज करा
+          </button>
+        </div>
       </div>
     </div>
-  </template>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <h2 data-key="docs_title">आवश्यक कागदपत्रे</h2>
+      <p style="color:var(--text-light)" data-key="docs_sub">केवळ खालील कागदपत्रे तयार ठेवा आणि कर्ज मिळवा</p>
+    </div>
+    <div class="doc-grid">
+      <div class="doc-item"><i class="fas fa-check-circle" style="color:var(--success)"></i> <span data-key="doc1">आधार कार्ड</span></div>
+      <div class="doc-item"><i class="fas fa-check-circle" style="color:var(--success)"></i> <span data-key="doc2">पॅन कार्ड</span></div>
+      <div class="doc-item"><i class="fas fa-check-circle" style="color:var(--success)"></i> <span data-key="doc3">२ वर्षांचे ITR</span></div>
+      <div class="doc-item"><i class="fas fa-check-circle" style="color:var(--success)"></i> <span data-key="doc4">६ महिन्यांचे बँक स्टेटमेंट</span></div>
+      <div class="doc-item"><i class="fas fa-check-circle" style="color:var(--success)"></i> <span data-key="doc5">गाडीचे कोटेशन</span></div>
+      <div class="doc-item"><i class="fas fa-check-circle" style="color:var(--success)"></i> <span data-key="doc6">पासपोर्ट फोटो</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-col">
+        <h4>JJSB Bank</h4>
+        <p style="font-size:0.9rem; line-height:1.6;">जळगाव जनता सहकारी बँक, आपल्या विश्वासाचे आणि प्रगतीचे ३५+ वर्षांपासूनचे सोबती.</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-key="quick_links">महत्वाचे दुवे</h4>
+        <ul>
+          <li><a href="#" data-key="link_home">मुखपृष्ठ</a></li>
+          <li><a href="#" data-key="link_about">आमच्याबद्दल</a></li>
+          <li><a href="#" data-key="link_loans">इतर कर्जे</a></li>
+          <li><a href="#" data-key="link_contact">संपर्क</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-key="contact_us">संपर्क साधा</h4>
+        <ul>
+          <li><i class="fas fa-map-marker-alt" style="width:20px"></i> मुख्य शाखा, जळगाव</li>
+          <li><i class="fas fa-phone" style="width:20px"></i> 0257-222 5511</li>
+          <li><i class="fas fa-envelope" style="width:20px"></i> help@jjsb.co.in</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      &copy; 2025 Jalgaon Janata Sahakari Bank Ltd. All Rights Reserved. Designed for Excellence.
+    </div>
+  </footer>
 
   <script>
+    // --- TRANSLATION DATA ---
     const translations = {
       en: {
-        bank_name: "Jalgaon Janata Sahakari Bank Ltd, Jalgaon",
-        contact: "0257-222 5511",
-        hero_title: "Drive Home Your Dream Vehicle",
-        hero_subtitle: "Quick & easy vehicle loans starting @ 8.50%* p.a.",
-        apply_loan: "Apply for Loan",
-        check_eligibility: "Check Eligibility",
-        emi_calculator: "EMI Calculator",
-        emi_title: "Vehicle Loan EMI Calculator",
-        loan_amount: "Loan Amount (₹)",
-        interest_rate: "Interest Rate (% p.a.)",
-        tenure: "Loan Tenure",
+        bank_name_short: "Jalgaon Janata Bank",
+        hero_title: "Drive Home Your<br>Dream Car Today",
+        hero_subtitle: "Get vehicle loans with minimal documentation, lowest interest rates and easiest process.",
+        check_emi: "Check EMI",
+        apply_now: "Apply Now",
+        why_us: "Why Choose Us?",
+        roi_start: "ROI Starting From",
+        proc_fee: "Processing Fee",
+        benefits_title: "Why Choose Us?",
+        benefits_sub: "A bank that understands your needs",
+        feat1_title: "Paperless Process",
+        feat1_desc: "Completely digital. No need to visit the branch, apply from home.",
+        feat2_title: "Up to 90% Finance",
+        feat2_desc: "Get funding up to 90% of the vehicle's on-road price.",
+        feat3_title: "Approval in 48 Hrs",
+        feat3_desc: "Swift approval if documents are in order.",
+        feat4_title: "Flexible Tenure",
+        feat4_desc: "Choose repayment tenure up to 7 years as per your convenience.",
+        calc_title: "Smart EMI Calculator",
+        loan_amt_lbl: "Loan Amount",
+        roi_lbl: "Interest Rate (%)",
+        tenure_lbl: "Tenure (Years)",
         monthly_emi: "Monthly EMI",
-        total_interest: "Total Interest:",
-        total_payable: "Total Payable Amount:"
-      },
-      hi: {
-        bank_name: "जलगाँव जनता सहकारी बैंक लि., जलगाँव",
-        hero_title: "अपनी सपनों की गाड़ी घर लाएँ",
-        contact: "0257-222 5511",
-        hero_subtitle: "त्वरित वाहन कर्ज - केवल 8.50%* से शुरू",
-        apply_loan: "लोन के लिए आवेदन करें",
-        check_eligibility: "पात्रता जाँचें",
-        emi_calculator: "ईएमआई कैलकुलेटर",
-        emi_title: "वाहन कर्ज ईएमआई कैलकुलेटर",
-        loan_amount: "कर्ज राशि (₹)",
-        interest_rate: "ब्याज दर (% प्रतिवर्ष)",
-        tenure: "कर्ज अवधि",
-        monthly_emi: "मासिक ईएमआई",
-        total_interest: "कुल ब्याज:",
-        total_payable: "कुल देय राशि:"
+        total_int: "Total Interest",
+        total_pay: "Total Payable",
+        apply_btn_calc: "Apply for this Loan",
+        docs_title: "Documents Required",
+        docs_sub: "Keep these documents ready for instant approval",
+        doc1: "Aadhaar Card", doc2: "PAN Card", doc3: "2 Years ITR", doc4: "6 Months Bank Stmt", doc5: "Car Quotation", doc6: "Passport Photo",
+        quick_links: "Quick Links", link_home: "Home", link_about: "About Us", link_loans: "Other Loans", link_contact: "Contact", contact_us: "Contact Us"
       },
       mr: {
-        bank_name: "जळगाव जनता सहकारी बँक लि., जळगाव",
-        contact: "0257-222 5511",
-        hero_title: "आपली स्वप्नातील गाडी घरी आणा",
-        hero_subtitle: "कमी व्याजदरात त्वरित वाहन कर्ज - फक्त ८.५०%* पासून",
-        apply_loan: "कर्जासाठी अर्ज करा",
-        check_eligibility: "पात्रता तपासा",
-        emi_calculator: "ईएमआय कॅल्क्युलेटर",
-        emi_title: "वाहन कर्ज ईएमआय कॅल्क्युलेटर",
-        loan_amount: "कर्जाची रक्कम (₹)",
-        interest_rate: "व्याजदर (% प्रति वर्ष)",
-        tenure: "कर्ज मुदत",
-        monthly_emi: "मासिक हप्ता",
-        total_interest: "एकूण व्याज:",
-        total_payable: "एकूण देय रक्कम:"
+        bank_name_short: "जळगाव जनता बँक",
+        hero_title: "आपली स्वप्नातील गाडी<br><span style='color:#fbbf24'>आताच घरी आणा</span>",
+        hero_subtitle: "किचकट कागदपत्रांशिवाय, सर्वात कमी व्याजदरात आणि अत्यंत सोप्या प्रक्रियेसह वाहन कर्ज मिळवा.",
+        check_emi: "ईएमआय तपासा",
+        apply_now: "अर्ज करा",
+        why_us: "आमची वैशिष्ट्ये",
+        roi_start: "व्याज दर सुरुवात",
+        proc_fee: "प्रक्रिया शुल्क",
+        benefits_title: "आम्हालाच का निवडावे?",
+        benefits_sub: "ग्राहकांच्या गरजा समजून घेणारी, हक्काची बँक",
+        feat1_title: "पेपरलेस प्रक्रिया",
+        feat1_desc: "पूर्णपणे डिजिटल प्रक्रिया. बँकेत जाण्याची गरज नाही, घरबसल्या अर्ज करा.",
+        feat2_title: "९०% पर्यंत फायनान्स",
+        feat2_desc: "गाडीच्या ऑन-रोड किंमतीच्या ९०% पर्यंत कर्ज उपलब्ध.",
+        feat3_title: "४८ तासात मंजूरी",
+        feat3_desc: "कागदपत्रे बरोबर असल्यास अतिशय वेगाने कर्ज मंजूर.",
+        feat4_title: "लवचिक परतफेड",
+        feat4_desc: "आपल्या सोयीनुसार ७ वर्षांपर्यंत परतफेडीची मुदत निवडा.",
+        calc_title: "स्मार्ट EMI कॅल्क्युलेटर",
+        loan_amt_lbl: "कर्जाची रक्कम",
+        roi_lbl: "व्याज दर (%)",
+        tenure_lbl: "मुदत (वर्षे)",
+        monthly_emi: "मासिक हप्ता (EMI)",
+        total_int: "एकूण व्याज",
+        total_pay: "एकूण देय रक्कम",
+        apply_btn_calc: "या कर्जासाठी अर्ज करा",
+        docs_title: "आवश्यक कागदपत्रे",
+        docs_sub: "केवळ खालील कागदपत्रे तयार ठेवा आणि कर्ज मिळवा",
+        doc1: "आधार कार्ड", doc2: "पॅन कार्ड", doc3: "२ वर्षांचे ITR", doc4: "६ महिन्यांचे बँक स्टेटमेंट", doc5: "गाडीचे कोटेशन", doc6: "पासपोर्ट फोटो",
+        quick_links: "महत्वाचे दुवे", link_home: "मुखपृष्ठ", link_about: "आमच्याबद्दल", link_loans: "इतर कर्जे", link_contact: "संपर्क", contact_us: "संपर्क साधा"
+      },
+      hi: {
+        bank_name_short: "जलगाँव जनता बैंक",
+        hero_title: "अपनी सपनों की कार<br>आज ही घर लाएं",
+        hero_subtitle: "न्यूनतम दस्तावेजों, सबसे कम ब्याज दरों और सबसे आसान प्रक्रिया के साथ वाहन ऋण प्राप्त करें।",
+        check_emi: "ईएमआई जांचें",
+        apply_now: "आवेदन करें",
+        why_us: "हमारी विशेषताएं",
+        roi_start: "ब्याज दर शुरुआत",
+        proc_fee: "प्रक्रिया शुल्क",
+        benefits_title: "हमें क्यों चुनें?",
+        benefits_sub: "आपकी जरूरतों को समझने वाला बैंक",
+        feat1_title: "पेपरलेस प्रक्रिया",
+        feat1_desc: "पूरी तरह डिजिटल। बैंक जाने की जरूरत नहीं, घर से आवेदन करें।",
+        feat2_title: "९०% तक फाइनेंस",
+        feat2_desc: "वाहन की ऑन-रोड कीमत का ९०% तक ऋण उपलब्ध।",
+        feat3_title: "४८ घंटे में मंजूरी",
+        feat3_desc: "दस्तावेज सही होने पर त्वरित ऋण मंजूरी।",
+        feat4_title: "लचीली पुनर्भुगतान",
+        feat4_desc: "अपनी सुविधा के अनुसार ७ साल तक की अवधि चुनें।",
+        calc_title: "स्मार्ट EMI कैलकुलेटर",
+        loan_amt_lbl: "ऋण राशि",
+        roi_lbl: "ब्याज दर (%)",
+        tenure_lbl: "अवधि (वर्ष)",
+        monthly_emi: "मासिक किश्त (EMI)",
+        total_int: "कुल ब्याज",
+        total_pay: "कुल देय राशि",
+        apply_btn_calc: "इस ऋण के लिए आवेदन करें",
+        docs_title: "आवश्यक दस्तावेज",
+        docs_sub: "केवल निम्नलिखित दस्तावेज तैयार रखें",
+        doc1: "आधार कार्ड", doc2: "पैन कार्ड", doc3: "२ साल का ITR", doc4: "६ महीने का बैंक स्टेटमेंट", doc5: "कार कोटेशन", doc6: "पासपोर्ट फोटो",
+        quick_links: "महत्वपूर्ण लिंक", link_home: "होम", link_about: "हमारे बारे में", link_loans: "अन्य ऋण", link_contact: "संपर्क", contact_us: "संपर्क करें"
       }
     };
 
+    // --- LOGIC ---
     const langSelect = document.getElementById('langSelect');
+    
+    // Smooth Scroll
+    function scrollToCalc() {
+      document.getElementById('calculator').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Language Change
     function updateLanguage() {
       const lang = langSelect.value;
       document.querySelectorAll('[data-key]').forEach(el => {
         const key = el.dataset.key;
-        if (translations[lang][key]) el.textContent = translations[lang][key];
+        if (translations[lang] && translations[lang][key]) {
+          el.innerHTML = translations[lang][key]; // innerHTML allowed for <br> and span
+        }
       });
+      calculateEMI(); // Refresh calcs
     }
     langSelect.addEventListener('change', updateLanguage);
 
-    document.getElementById('emiBtn').addEventListener('click', () => {
-      const existing = document.querySelector('.emi-calculator');
-      if (existing) { existing.remove(); return; }
-      const clone = document.getElementById('emiTemplate').content.cloneNode(true);
-      document.getElementById('emiContainer').appendChild(clone);
-      updateLanguage();
-      ['amount','rate','tenure'].forEach(id => {
-        document.getElementById(id)?.addEventListener('input', calculateEMI);
-      });
-      calculateEMI();
-    });
+    // EMI Logic
+    const amountInput = document.getElementById('amount');
+    const rateInput = document.getElementById('rate');
+    const tenureInput = document.getElementById('tenure');
 
     function calculateEMI() {
-      const amt = parseFloat(document.getElementById('amount').value);
-      const r = parseFloat(document.getElementById('rate').value) / 1200;
-      const n = parseInt(document.getElementById('tenure').value);
-      const emi = amt * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
-      const total = emi * n;
-      const interest = total - amt;
+      // Get Values
+      const P = parseFloat(amountInput.value);
+      const r = parseFloat(rateInput.value) / 12 / 100;
+      const n = parseFloat(tenureInput.value) * 12;
 
-      document.getElementById('emiResult').textContent = "₹ " + Math.round(emi).toLocaleString('en-IN');
-      document.getElementById('interest').textContent = "₹ " + Math.round(interest).toLocaleString('en-IN');
-      document.getElementById('total').textContent = "₹ " + Math.round(total).toLocaleString('en-IN');
+      // Update Labels
+      document.getElementById('amtDisplay').innerText = "₹ " + P.toLocaleString('en-IN');
+      document.getElementById('rateDisplay').innerText = rateInput.value + "%";
+      const lang = langSelect.value;
+      const yrText = lang === 'en' ? ' Years' : (lang === 'hi' ? ' वर्ष' : ' वर्षे');
+      document.getElementById('tenureDisplay').innerText = tenureInput.value + yrText;
+
+      // Calc
+      const emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+      const totalPay = emi * n;
+      const totalInt = totalPay - P;
+
+      // Update UI
+      document.getElementById('emiResult').innerText = "₹ " + Math.round(emi).toLocaleString('en-IN');
+      document.getElementById('totalInterest').innerText = "₹ " + Math.round(totalInt).toLocaleString('en-IN');
+      document.getElementById('totalPayment').innerText = "₹ " + Math.round(totalPay).toLocaleString('en-IN');
     }
 
+    // Event Listeners for Sliders
+    [amountInput, rateInput, tenureInput].forEach(input => {
+      input.addEventListener('input', calculateEMI);
+    });
+
+    // Init
     window.onload = () => {
-      langSelect.value = "mr";
+      langSelect.value = "mr"; // Default Marathi
       updateLanguage();
+      calculateEMI();
     };
   </script>
-
 </body>
 </html>
